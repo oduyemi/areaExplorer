@@ -1,7 +1,3 @@
-Absolutely, let's enhance the documentation to provide more detailed information about each endpoint, including request payloads, response bodies, and example usage.
-
----
-
 ## Area Explorer API Documentation
 
 ### Overview
