@@ -122,6 +122,16 @@ router.get("/reviews", (req, res) => __awaiter(void 0, void 0, void 0, function*
         res.status(500).json({ message: "Internal Server Error" });
     }
 }));
+router.get("/reviews/approved", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const approvedReviews = yield reviewModel_1.default.find({ status: 'approved' });
+        res.status(200).json(approvedReviews);
+    }
+    catch (error) {
+        console.error("Error fetching approved reviews:", error);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+}));
 router.get("/reviews/:reviewId", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const reviewId = req.params.reviewId;
@@ -133,6 +143,26 @@ router.get("/reviews/:reviewId", (req, res) => __awaiter(void 0, void 0, void 0,
     }
     catch (error) {
         console.error("Error fetching review:", error);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+}));
+router.get("/admin/reviews/approved", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const approvedReviews = yield reviewModel_1.default.find({ status: 'approved' });
+        res.status(200).json(approvedReviews);
+    }
+    catch (error) {
+        console.error("Error fetching approved reviews:", error);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+}));
+router.get("/admin/reviews/declined", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const declinedReviews = yield reviewModel_1.default.find({ status: 'declined' });
+        res.status(200).json(declinedReviews);
+    }
+    catch (error) {
+        console.error("Error fetching declined reviews:", error);
         res.status(500).json({ message: "Internal Server Error" });
     }
 }));

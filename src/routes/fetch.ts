@@ -122,6 +122,20 @@ router.get("/reviews", async (req, res) => {
     }
 });
 
+
+router.get("/reviews/approved", async (req, res) => {
+    try {
+        const approvedReviews = await Review.find({ status: 'approved' });
+
+        res.status(200).json(approvedReviews);
+    } catch (error) {
+        console.error("Error fetching approved reviews:", error);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+});
+
+
+
 router.get("/reviews/:reviewId", async (req, res) => {
     try {
         const reviewId = req.params.reviewId;
@@ -139,6 +153,27 @@ router.get("/reviews/:reviewId", async (req, res) => {
     }
 });
 
+
+router.get("/admin/reviews/approved", async (req, res) => {
+    try {
+        const approvedReviews = await Review.find({ status: 'approved' });
+        res.status(200).json(approvedReviews);
+    } catch (error) {
+        console.error("Error fetching approved reviews:", error);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+});
+
+
+router.get("/admin/reviews/declined", async (req, res) => {
+    try {
+        const declinedReviews = await Review.find({ status: 'declined' });
+        res.status(200).json(declinedReviews);
+    } catch (error) {
+        console.error("Error fetching declined reviews:", error);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+});
 
 
 

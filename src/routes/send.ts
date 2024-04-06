@@ -377,6 +377,48 @@ router.post("/reviews/dislike", async (req, res) => {
 });
 
 
+router.post("/admin/reviews/:reviewId/approve", async (req, res) => {
+    try {
+        const reviewId = req.params.reviewId;
+        const review = await Review.findById(reviewId);
+        
+        if (!review) {
+            return res.status(404).json({ message: "Review not found" });
+        }
+
+        review.status = 'approved';
+        await review.save();
+
+        res.status(200).json({ message: "Review approved successfully" });
+    } catch (error) {
+        console.error("Error approving review:", error);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+});
+
+
+router.post("/admin/reviews/:reviewId/decline", async (req, res) => {
+    try {
+        const reviewId = req.params.reviewId;
+        const review = await Review.findById(reviewId);
+        
+        if (!review) {
+            return res.status(404).json({ message: "Review not found" });
+        }
+
+        review.status = 'declined';
+        await review.save();
+
+        res.status(200).json({ message: "Review declined successfully" });
+    } catch (error) {
+        console.error("Error declining review:", error);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+});
+
+
+
+
 
 
 export default router;

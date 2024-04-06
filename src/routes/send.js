@@ -291,4 +291,36 @@ router.post("/reviews/dislike", (req, res) => __awaiter(void 0, void 0, void 0, 
         res.status(500).json({ message: "Internal Server Error" });
     }
 }));
+router.post("/admin/reviews/:reviewId/approve", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const reviewId = req.params.reviewId;
+        const review = yield reviewModel_1.default.findById(reviewId);
+        if (!review) {
+            return res.status(404).json({ message: "Review not found" });
+        }
+        review.status = 'approved';
+        yield review.save();
+        res.status(200).json({ message: "Review approved successfully" });
+    }
+    catch (error) {
+        console.error("Error approving review:", error);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+}));
+router.post("/admin/reviews/:reviewId/decline", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const reviewId = req.params.reviewId;
+        const review = yield reviewModel_1.default.findById(reviewId);
+        if (!review) {
+            return res.status(404).json({ message: "Review not found" });
+        }
+        review.status = 'declined';
+        yield review.save();
+        res.status(200).json({ message: "Review declined successfully" });
+    }
+    catch (error) {
+        console.error("Error declining review:", error);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+}));
 exports.default = router;
