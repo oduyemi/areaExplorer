@@ -7,7 +7,7 @@ The Area Explorer API provides endpoints to manage user accounts, reviews, and a
 ### Base URL
 
 ```
-https://areaexplorer-api.vercel.app
+https://areaexplorer-api.onrender.com
 ```
 
 ### Authentication
