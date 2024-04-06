@@ -26,7 +26,8 @@
     "express-session": "^1.18.0",
     "http-proxy-middleware": "^3.0.0",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.3.0"
+    "mongoose": "^8.3.0",
+    "vercel": "^33.7.0"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
