@@ -1,13 +1,12 @@
 import express, { Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import bcrypt from "bcrypt";
 import { hash, compare } from "bcrypt";
 import mongoose from "mongoose";
 import Admin, { IAdmin } from "../models/adminModel";
 import User, { IUser } from "../models/userModel";
-import Review, { IReview } from "../models/reviewModel";
-import Like, { ILike } from "../models/likeModel"
-import Dislike, { IDislike } from "../models/dislikeModel"
+import Review from "../models/reviewModel";
+import Like from "../models/likeModel"
+import Dislike from "../models/dislikeModel"
 
 const router = express.Router();
 

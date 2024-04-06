@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 import Admin, { IAdmin } from "../models/adminModel";
 import User, { IUser } from "../models/userModel";
-import Dashboard, { IDashboard } from "../models/dashboardModel";
+import Dashboard from "../models/dashboardModel";
 import Review from "../models/reviewModel";
 
 const router = express.Router();
