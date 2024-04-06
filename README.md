@@ -202,6 +202,50 @@ Authorization: Bearer <token>
         "message": "Admin account deleted successfully"
       }
       ```
+      
+- **POST /admin/reviews/:reviewId/approve**
+  - Allows admin to approve a review.
+    - Response:
+      ```json
+        {
+        "message": "Review approved successfully"
+      }
+
+      ```
+
+- **POST /admin/reviews/:reviewId/decline**
+  - Allows admin to decline a review.
+    - Response:
+      ```json
+        {
+        "message": "Review declined successfully"
+      }
+
+      ```
+
+  - **GET /admin/reviews/approve**
+  - Allows admin to retrieve an approved review.
+    - Response:
+      ```json
+        {
+          "reviewID": "1234567890",
+          "reviewStatus": "approved",
+          "date": "2024-04-07T10:30:00.000Z"
+        },
+
+      ```
+
+- **GET /admin/reviews/decline**
+  - Allows admin to fetch a declined review.
+    - Response:
+      ```json
+        {
+          "reviewID": "1234567890",
+          "reviewStatus": "declined",
+          "date": "2024-04-07T10:30:00.000Z"
+        },
+
+      ```
 
 ### Reviews
 
