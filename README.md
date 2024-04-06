@@ -1,138 +1,307 @@
-# AreaExplorer API Documentation
+Absolutely, let's enhance the documentation to provide more detailed information about each endpoint, including request payloads, response bodies, and example usage.
 
-Welcome to the AreaExplorer API documentation. This API provides functionality for users to explore different areas and submit reviews. It also includes features for administrators to manage reviews efficiently. This documentation will guide you through the endpoints and their usage.
+---
 
-## Base URL
+## Area Explorer API Documentation
 
-The base URL for accessing the API is: `https://areaexplorer.com/api/v1`
+### Overview
 
-## Authentication
+The Area Explorer API provides endpoints to manage user accounts, reviews, and administrative tasks for the Area Explorer web application. It allows users to register, log in, post reviews, update their profiles, and more.
 
-Authentication is required for certain endpoints. This is done using JSON Web Tokens (JWT). Upon successful authentication, the server will provide a token which should be included in the `Authorization` header of subsequent requests.
+### Base URL
+
+```
+https://areaexplorer-api.vercel.app
+```
+
+### Authentication
+
+The API uses JSON Web Tokens (JWT) for authentication. Users and administrators must include their JWT token in the `Authorization` header of each request.
 
 Example:
 ```
 Authorization: Bearer <token>
 ```
 
-## Endpoints
+### Endpoints
 
-### User Endpoints
+#### Users
 
-#### 1. Register User
-- **URL:** `/users/register`
-- **Method:** POST
-- **Description:** Register a new user.
-- **Request Body:**
-  - `username`: String (required)
-  - `email`: String (required)
-  - `password`: String (required)
-- **Response:**
-  - `success`: Boolean
-  - `message`: String
+- **POST /users/register**
+  - Registers a new user account.
+    - Request Body:
+      ```json
+      {
+        "fname": "John",
+        "lname": "Doe",
+        "email": "john.doe@example.com",
+        "phone": "1234567890",
+        "password": "password123"
+      }
+      ```
+    - Response:
+      ```json
+      {
+        "message": "User registered successfully.",
+        "token": "<jwt_token>",
+        "nextStep": "/next-login-page"
+      }
+      ```
 
-#### 2. Login User
-- **URL:** `/users/login`
-- **Method:** POST
-- **Description:** Log in an existing user.
-- **Request Body:**
-  - `email`: String (required)
-  - `password`: String (required)
-- **Response:**
-  - `success`: Boolean
-  - `token`: String (JWT)
-  - `message`: String
+- **POST /users/login**
+  - Logs in an existing user.
+    - Request Body:
+      ```json
+      {
+        "email": "john.doe@example.com",
+        "password": "password123"
+      }
+      ```
+    - Response:
+      ```json
+      {
+        "message": "User login successful!.",
+        "nextStep": "/next-dashboard",
+        "token": "<jwt_token>"
+      }
+      ```
 
-#### 3. Get User Dashboard
-- **URL:** `/users/dashboard`
-- **Method:** GET
-- **Description:** Retrieve the dashboard of the authenticated user, including their reviews.
-- **Authentication Required**
-- **Response:**
-  - `success`: Boolean
-  - `reviews`: Array of Review Objects
-  - `message`: String
+- **PUT /users/:userId**
+  - Updates the details of the user with the specified ID.
+    - Request Parameters:
+      - `userId`: ID of the user to be updated.
+    - Request Body (Optional):
+      ```json
+      {
+        "fname": "John",
+        "lname": "Doe",
+        "email": "john.doe@example.com",
+        "phone": "1234567890"
+      }
+      ```
+    - Response:
+      ```json
+      {
+        "message": "User details updated successfully"
+      }
+      ```
 
-### Review Endpoints
+- **PUT /users/:userId/resetpassword**
+  - Resets the password for the user with the specified ID.
+    - Request Parameters:
+      - `userId`: ID of the user to reset password for.
+    - Request Body:
+      ```json
+      {
+        "oldPassword": "oldpassword123",
+        "newPassword": "newpassword123",
+        "confirmNewPassword": "newpassword123"
+      }
+      ```
+    - Response:
+      ```json
+      {
+        "message": "Password reset successfully"
+      }
+      ```
 
-#### 1. Create Review
-- **URL:** `/reviews/create`
-- **Method:** POST
-- **Description:** Create a new review.
-- **Request Body:**
-  - `areaName`: String (required)
-  - `reviewContent`: String (required)
-  - `rating`: Number (required, between 1 to 5)
-- **Authentication Required**
-- **Response:**
-  - `success`: Boolean
-  - `message`: String
+- **DELETE /users/:userId/delete**
+  - Deletes the user account with the specified ID.
+    - Request Parameters:
+      - `userId`: ID of the user to be deleted.
+    - Response:
+      ```json
+      {
+        "message": "User account deleted successfully"
+      }
+      ```
 
-#### 2. Get All Reviews
-- **URL:** `/reviews`
-- **Method:** GET
-- **Description:** Retrieve all reviews.
-- **Response:**
-  - `success`: Boolean
-  - `reviews`: Array of Review Objects
-  - `message`: String
+#### Admins
 
-### Admin Endpoints
+- **POST /admin/register**
+  - Registers a new admin account.
+    - Request Body:
+      ```json
+      {
+        "fname": "John",
+        "lname": "Doe",
+        "email": "john.doe@example.com",
+        "phone": "1234567890",
+        "password": "password123"
+      }
+      ```
+    - Response:
+      ```json
+      {
+        "message": "Admin registered successfully.",
+        "token": "<jwt_token>",
+        "nextStep": "/next-login-page"
+      }
+      ```
 
-#### 1. Vet Review
-- **URL:** `/admin/reviews/:reviewId/vet`
-- **Method:** PUT
-- **Description:** Approve or decline a review.
-- **Authentication Required**
-- **Request Body:**
-  - `status`: String (required, "approved" or "declined")
-- **Response:**
-  - `success`: Boolean
-  - `message`: String
+- **POST /admin/login**
+  - Logs in an existing admin.
+    - Request Body:
+      ```json
+      {
+        "email": "john.doe@example.com",
+        "password": "password123"
+      }
+      ```
+    - Response:
+      ```json
+      {
+        "message": "Admin login successful!.",
+        "nextStep": "/next-dashboard",
+        "token": "<jwt_token>"
+      }
+      ```
 
-## Example Usage
+- **PUT /admin/:adminId**
+  - Updates the details of the admin with the specified ID.
+    - Request Parameters:
+      - `adminId`: ID of the admin to be updated.
+    - Request Body (Optional):
+      ```json
+      {
+        "fname": "John",
+        "lname": "Doe",
+        "email": "john.doe@example.com",
+        "phone": "1234567890"
+      }
+      ```
+    - Response:
+      ```json
+      {
+        "message": "User details updated successfully"
+      }
+      ```
 
-### Register User
-```
-POST https://areaexplorer.com/api/v1/users/register
-{
-  "username": "exampleUser",
-  "email": "user@example.com",
-  "password": "password123"
-}
-```
+- **PUT /admin/:adminId/resetpassword**
+  - Resets the password for the user with the specified ID.
+    - Request Parameters:
+      - `adminId`: ID of the admin to reset password for.
+    - Request Body:
+      ```json
+      {
+        "oldPassword": "oldpassword123",
+        "newPassword": "newpassword123",
+        "confirmNewPassword": "newpassword123"
+      }
+      ```
+    - Response:
+      ```json
+      {
+        "message": "Password reset successfully"
+      }
+      ```
 
-### Login User
-```
-POST https://areaexplorer.com/api/v1/users/login
-{
-  "email": "user@example.com",
-  "password": "password123"
-}
-```
-Response:
-```
-{
-  "success": true,
-  "token": "<JWT Token>",
-  "message": "Login successful"
-}
-```
+- **DELETE /admin/:adminId/delete**
+  - Deletes the admin account with the specified ID.
+    - Request Parameters:
+      - `adminId`: ID of the admin to be deleted.
+    - Response:
+      ```json
+      {
+        "message": "Admin account deleted successfully"
+      }
+      ```
 
-### Create Review
-```
-POST https://areaexplorer.com/api/v1/reviews/create
-Authorization: Bearer <JWT Token>
-{
-  "areaName": "Example Area",
-  "reviewContent": "This area is great for families!",
-  "rating": 5
-}
-```
-Response:
-```
-{
-  "success": true,
-  "message": "Review created successfully"
-}
-```
+### Reviews
+
+Reviews allow users to share their experiences and opinions about different areas.
+
+- **GET /reviews**
+  - Retrieves all reviews.
+    - Response:
+      ```json
+      [
+        {
+          "reviewID": "1234567890",
+          "userID": "0987654321",
+          "areaName": "Example Area",
+          "reviewContent": "This area is great for families!",
+          "rating": "5",
+          "status": "approved",
+          "date": "2024-04-07T10:30:00.000Z"
+        },
+        {
+          "reviewID": "0987654321",
+          "userID": "1234567890",
+          "areaName": "Another Area",
+          "reviewContent": "Not recommended for pet owners.",
+          "rating": "2",
+          "status": "approved",
+          "date": "2024-04-06T15:45:00.000Z"
+        }
+      ]
+      ```
+
+- **GET /reviews/:reviewId**
+  - Retrieves the review with the specified ID.
+    - Request Parameters:
+      - `reviewId`: ID of the review to retrieve.
+    - Response:
+      ```json
+      {
+        "reviewID": "1234567890",
+        "userID": "0987654321",
+        "areaName": "Example Area",
+        "reviewContent": "This area is great for families!",
+        "rating": "5",
+        "status": "approved",
+        "date": "2024-04-07T10:30:00.000Z"
+      }
+      ```
+
+- **POST /reviews**
+  - Posts a new review.
+    - Request Body:
+      ```json
+      {
+        "areaName": "Example Area",
+        "reviewContent": "This area is great for families!",
+        "rating": "5"
+      }
+      ```
+    - Response:
+      ```json
+      {
+        "message": "Review posted successfully"
+      }
+      ```
+
+- **PUT /reviews/:reviewId**
+  - Updates the details of the review with the specified ID.
+    - Request Parameters:
+      - `reviewId`: ID of the review to update.
+    - Request Body (Optional):
+      ```json
+      {
+        "areaName": "Updated Area Name",
+        "reviewContent": "Updated review content",
+        "rating": "4"
+      }
+      ```
+    - Response:
+      ```json
+      {
+        "message": "Review details updated successfully"
+      }
+      ```
+
+- **DELETE /reviews/:reviewId/delete**
+  - Deletes the review with the specified ID.
+    - Request Parameters:
+      - `reviewId`: ID of the review to delete.
+    - Response:
+      ```json
+      {
+        "message": "Review deleted successfully"
+      }
+      ```
+
+---
+
+
+
